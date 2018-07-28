@@ -3,29 +3,21 @@ import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-map
 import pin from './icons/beach.png';
 
 class Map extends Component {
-   render() {
 
-
-   const MyMap= withScriptjs(withGoogleMap(props => (
+  render() {
+    return (
       <GoogleMap
-        defaultCenter = { { lat: 35, lng: 25 } }
-        defaultZoom = { 9 }
-      >
+        defaultZoom={8}
+        defaultCenter={{ lat: -34.397, lng: 150.644 }}
+        >
         <Marker
-          position = { { lat: 35, lng: 25} }
-          icon = { pin }
+          position={{ lat: -34.397, lng: 150.644 }}
           animation = { window.google.maps.Animation.DROP }
+          icon = {pin}
         />
       </GoogleMap>
-   )));
-   return(
-        <MyMap
-          googleMapURL = { 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAEe8hH_EmGU_py7z8VkxRprOP8_5-s9YU&v=3.exp&libraries=geometry,drawing,places' }
-				  loadingElement = { <div style={{ height: '100%' }} /> }
-          containerElement = { <div className='map-container' style={{ height: '1000px', width: '100%' }} /> }
-          mapElement = { <div style = { { height: '100%' } } /> }>
-        </MyMap>
-   );
-   }
-};
-export default Map;
+    )
+  }
+ }
+
+export default withScriptjs(withGoogleMap(Map));
