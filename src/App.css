@@ -1,12 +1,10 @@
-html, body, main { height: 100%; margin: 0px; padding: 0px; }
+html, body, #root, main { height: 100%; margin: 0px; padding: 0px; }
 
 .App {
   text-align: center;
   height: 100%;
-}
+  diaplay: flex;
 
-#root {
-  height: 100%;
 }
 
 .App-logo {
@@ -15,7 +13,7 @@ html, body, main { height: 100%; margin: 0px; padding: 0px; }
 
 .App-header {
   background-color: #white;
-  height: 150px;
+  height: 250px;
   padding: 20px;
   color: black;
 }
@@ -27,4 +25,109 @@ html, body, main { height: 100%; margin: 0px; padding: 0px; }
 .App-intro {
   font-size: large;
   background-color: #white;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-container {
+  height: 100px;
+}
+
+.nav {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.nav__list {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.nav__item {
+  box-sizing: border-box;
+  display: inline-block;
+  width: 24%;
+  text-align: center;
+  line-height: 2em;
+  padding: 2em;
+  text-transform: uppercase;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #616161;
+  padding: 1.5em;
+}
+
+.nav a:hover {
+  text-decoration: underline;
+  color: #212121;
+}
+
+.hamburger {
+    display: inline-block;
+    cursor: pointer;
+}
+
+/*hamburger bars from w3schools example*/
+.bar1, .bar2, .bar3 {
+    width: 35px;
+    height: 5px;
+    background-color: #333;
+    margin: 6px 0;
+    transition: 0.4s;
+}
+
+/*rotating bars to transform the icon into close button*/
+.change .bar1 {
+    -webkit-transform: rotate(-45deg) translate(-9px, 6px);
+    transform: rotate(-45deg) translate(-9px, 6px);
+}
+
+.change .bar2 {opacity: 0;}
+
+.change .bar3 {
+    -webkit-transform: rotate(45deg) translate(-8px, -8px);
+    transform: rotate(45deg) translate(-8px, -8px);
+}
+
+@media screen and (max-width: 549px) {
+  .nav {
+      z-index: 10;
+      background-color: #fff;
+      width: 100%;
+      position: absolute;
+      /* This trasform moves the drawer off canvas. */
+      -webkit-transform: translate(-100%, 0);
+      transform: translate(-100%, 0);
+      /* Optionally, we animate the drawer. */
+      transition: transform 0.3s ease;
+    }
+
+    .nav.open {
+      -webkit-transform: translate(0, 0);
+      transform: translate(0, 0);
+    }
+
+    .nav__item {
+      display: list-item;
+      border-bottom: 1px solid #E0E0E0;
+      width: 100%;
+      text-align: center;
+    }
+
+    .header__menu {
+      display: inline-block;
+      position: absolute;
+      right: 0;
+      top: 0;
+      margin: 1.8em;
+      color: Tomato;
+    }
 }

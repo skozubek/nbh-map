@@ -4,15 +4,31 @@ import pin from './icons/beach.png';
 
 class Map extends Component {
 
+state  = {
+  themap: {}
+}
+
+  mapMoved = () => {
+    console.log('mapMoved: ' + this.state.themap.keys);
+  }
+
+  mapLoaded = (map) => {
+    console.log('mapLoaded: ' + map.getCenter());
+    this.setState({ themap: map });
+
+  }
+
   render() {
     return (
       <GoogleMap
-        defaultZoom={8}
-        defaultCenter={{ lat: -34.397, lng: 150.644 }}
+        onDragEnd={this.mapMoved}
+        ref={this.mapLoaded}
+        defaultZoom={ this.props.zoom  }
+        defaultCenter={ this.props.defaultCenter }
         >
         <Marker
-          position={{ lat: -34.397, lng: 150.644 }}
-          animation = { window.google.maps.Animation.DROP }
+          position={ this.props.markerPosition }
+          animation = { this.props.markerAnimation }
           icon = {pin}
         />
       </GoogleMap>
