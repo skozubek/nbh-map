@@ -3,33 +3,16 @@ import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-map
 import pin from './icons/beach.png';
 
 class Map extends Component {
-
-state  = {
-  themap: {}
-}
-
-  mapMoved = () => {
-    console.log('mapMoved: ' + this.state.themap.keys);
-  }
-
-  mapLoaded = (map) => {
-    console.log('mapLoaded: ' + map.getCenter());
-    this.setState({ themap: map });
-
-  }
-
   render() {
     return (
       <GoogleMap
-        onDragEnd={this.mapMoved}
-        ref={this.mapLoaded}
         defaultZoom={ this.props.zoom  }
         defaultCenter={ this.props.defaultCenter }
         >
         <Marker
           position={ this.props.markerPosition }
           animation = { this.props.markerAnimation }
-          icon = {pin}
+          icon = { pin }
         />
       </GoogleMap>
     )

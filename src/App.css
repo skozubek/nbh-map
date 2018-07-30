@@ -3,8 +3,6 @@ html, body, #root, main { height: 100%; margin: 0px; padding: 0px; }
 .App {
   text-align: center;
   height: 100%;
-  diaplay: flex;
-
 }
 
 .App-logo {
@@ -13,8 +11,8 @@ html, body, #root, main { height: 100%; margin: 0px; padding: 0px; }
 
 .App-header {
   background-color: #white;
-  height: 250px;
-  padding: 20px;
+  height: 125px;
+  padding: 5px;
   color: black;
 }
 
@@ -33,58 +31,16 @@ ul {
   margin: 0;
 }
 
-.nav-container {
-  height: 100px;
-}
-
-.nav {
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.nav__list {
-  width: 100%;
-  padding: 0;
-  margin: 0;
-}
-
-.nav__item {
-  box-sizing: border-box;
-  display: inline-block;
-  width: 24%;
-  text-align: center;
-  line-height: 2em;
-  padding: 2em;
-  text-transform: uppercase;
-}
-
-.nav a {
-  text-decoration: none;
-  color: #616161;
-  padding: 1.5em;
-}
-
-.nav a:hover {
-  text-decoration: underline;
-  color: #212121;
-}
-
-.hamburger {
-    display: inline-block;
-    cursor: pointer;
-}
-
 /*hamburger bars from w3schools example*/
 .bar1, .bar2, .bar3 {
     width: 35px;
     height: 5px;
-    background-color: #333;
+    background-color: tomato;
     margin: 6px 0;
     transition: 0.4s;
 }
 
-/*rotating bars to transform the icon into close button*/
+/*rotating bars to transform the hamburger into close button*/
 .change .bar1 {
     -webkit-transform: rotate(-45deg) translate(-9px, 6px);
     transform: rotate(-45deg) translate(-9px, 6px);
@@ -97,11 +53,68 @@ ul {
     transform: rotate(45deg) translate(-8px, -8px);
 }
 
-@media screen and (max-width: 549px) {
-  .nav {
+.search-bar {
+    width: 300px;
+    display: flex;
+    flex-wrap:  wrap;
+    flex-direction:  row;
+    justify-content: flex-start;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.hamburger {
+    display: none;
+    cursor: pointer;
+    width: 50px;
+    padding: 5px 10px;
+}
+
+.filter {
+    cursor: pointer;
+}
+
+.filter input {
+  padding: 15px 10px;
+  font-size: 1em;
+  border: 1;
+  outline: none;
+}
+
+.search-list{
+  width:15%;
+  min-width: 265px;
+}
+
+.map-container {
+  width: 70%;
+}
+
+.flex-container{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap:  wrap;
+  flex-direction:  row;
+}
+
+@media screen and (max-width: 900px) {
+  .hamburger {
+      display: block;
+      cursor: pointer;
+      width: 50px;
+      padding: 5px 10px;
+  }
+
+  .map-container {
+    height: 100%;
+    width: 100%;
+  }
+  .search-list {
       z-index: 10;
+      opacity: 0.7;
       background-color: #fff;
-      width: 100%;
+      width: 50%;
       position: absolute;
       /* This trasform moves the drawer off canvas. */
       -webkit-transform: translate(-100%, 0);
@@ -110,24 +123,15 @@ ul {
       transition: transform 0.3s ease;
     }
 
-    .nav.open {
+    .search-list-open {
       -webkit-transform: translate(0, 0);
       transform: translate(0, 0);
     }
 
-    .nav__item {
+    .search-list-item {
       display: list-item;
       border-bottom: 1px solid #E0E0E0;
       width: 100%;
       text-align: center;
-    }
-
-    .header__menu {
-      display: inline-block;
-      position: absolute;
-      right: 0;
-      top: 0;
-      margin: 1.8em;
-      color: Tomato;
     }
 }
