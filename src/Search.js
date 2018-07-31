@@ -1,16 +1,9 @@
 import React, { Component } from 'react';
 
 class Search extends Component {
-  state = {
-    query: ''
-  }
-
-  handleChange = (event) => {
-    this.setState({query: event.target.value});
-  }
 
   handleSubmit = (event) => {
-    alert('A name was submitted: ' + this.state.query);
+    //alert(this.state.query);
     event.preventDefault();
   }
 
@@ -19,7 +12,11 @@ class Search extends Component {
       <div className="filter">
         <form onSubmit={this.handleSubmit}>
           <label>
-            <input type="text" placeholder={ 'Find the beach' } value={this.state.query} onChange={this.handleChange} />
+            <input type="text" aria-label="Beach locations filter"
+              placeholder={ 'Find the beach' }
+              value={ this.props.filterString }
+              onChange={ this.props.onFilterInput }
+            />
           </label>
         </form>
       </div>
