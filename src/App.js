@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from './Header';
 import Hamburger from './Hamburger';
 import Search from './Search';
+import SearchList from './SearchList';
 import './App.css';
 import Map from './Map';
 
@@ -54,12 +55,7 @@ class App extends Component {
         </div>
         <main role="main">
           <div className="flex-container">
-            <div className="search-list">
-              <ul>
-                <li>slahfdsja</li>
-                <li>slahfdsja</li>
-              </ul>
-            </div>
+            <SearchList places={ places }/>
             <Map
                 googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEe8hH_EmGU_py7z8VkxRprOP8_5-s9YU&v=3.exp&libraries=geometry,drawing,places"
                 loadingElement={ <div id="loading-element" style={{  height: '100%' }} /> }

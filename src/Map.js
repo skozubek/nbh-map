@@ -14,7 +14,8 @@ class Map extends Component {
         {beaches.map( beach => <BeachMarker
                                 key={ beach.id }
                                 position={ {lat:beach.location.lat, lng:beach.location.lng} }
-                                name = { beach.name }/>) }
+                                name = { beach.name }
+                                address = { beach.location }/>) }
       </GoogleMap>
     )
   }

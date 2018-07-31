@@ -4,7 +4,7 @@ import logo from './icons/logo.svg';
 class Header extends Component {
 
   render() {
-    const title = 'The most beautifull beaches on Crete (Greece)';
+    const title = 'Explore the beaches of Western Crete (Greece)';
     return(
       <header className="App-header" role="banner">
         <img src={ logo } className="App-logo" alt="logo" />

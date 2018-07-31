@@ -9,12 +9,13 @@ class BeachMarker extends Component {
   }
 
   clickInfo = () => {
-  this.setState({ info: !this.state.info })
+    this.setState({ info: !this.state.info })
   }
 
   render() {
     const {lat, lng} = this.props.position;
     const name = this.props.name;
+    const address = this.props.address.formattedAddress[1];
     const animation = window.google.maps.Animation.DROP;
     const info = this.state.info;
 
@@ -27,7 +28,7 @@ class BeachMarker extends Component {
         animation = { animation }
         icon = { pin }
         onClick={this.clickInfo}>
-        {info && (<BeachInfo name={name}/>)}
+        {info && (<BeachInfo name={ name } address = { address }/>)}
       </Marker>
     );
   }
