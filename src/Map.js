@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
-import pin from './icons/beach.png';
+import { withScriptjs, withGoogleMap, GoogleMap } from 'react-google-maps';
+import BeachMarker from './BeachMarker';
 
 class Map extends Component {
   render() {
+    const beaches = this.props.places;
+
     return (
       <GoogleMap
         defaultZoom={ this.props.zoom  }
         defaultCenter={ this.props.defaultCenter }
         >
-        <Marker
-          position={ this.props.markerPosition }
-          animation = { this.props.markerAnimation }
-          icon = { pin }
-        />
+        {beaches.map( beach => <BeachMarker
+                                key={ beach.id }
+                                position={ {lat:beach.location.lat, lng:beach.location.lng} }
+                                name = { beach.name }/>) }
       </GoogleMap>
     )
   }

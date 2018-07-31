@@ -11,7 +11,7 @@ html, body, #root, main { height: 100%; margin: 0px; padding: 0px; }
 
 .App-header {
   background-color: #white;
-  height: 125px;
+  height: 150px;
   padding: 5px;
   color: black;
 }
@@ -78,6 +78,7 @@ ul {
   padding: 15px 10px;
   font-size: 1em;
   border: 1;
+  border-color: tomato;
   outline: none;
 }
 
