@@ -12,6 +12,7 @@ class App extends Component {
     zoom: 10,
     places: [],
     center: {
+      //location of Chania town, Crete
       lat: 35.51124,
       lng: 24.02921
       }
@@ -19,12 +20,12 @@ class App extends Component {
 
   fetchPlaces = () => {
     //Let's use to fetch data about the beaches near our center location (Crete island)
-    fetch(`https://api.foursquare.com/v2/venues/search?ll=${this.state.center.lat},${this.state.center.lng}&query=beach&v=20180323&limit=15&intent=browse&radius=150000&client_id=EC3IMTOJOJ05F0L00MJSK0IHOEWXX4YWQCZCDDKLROGYU10N&client_secret=GF1XG3HNSTOL2JGSZNVVUZLVFVBLHFPKVV52DA5BQIFMZSG2&X-RateLimit-Remaining`)
+    fetch(`https://api.foursquare.com/v2/venues/search?ll=${this.state.center.lat},${this.state.center.lng}&query=beach&v=20180323&limit=15&intent=browse&radius=150000&client_id=EC3IMTOJOJ05F0L00MJSK0IHOEWXX4YWQCZCDDKLROGYU10N&client_secret=GF1XG3HNSTOL2JGSZNVVUZLVFVBLHFPKVV52DA5BQIFMZSG2&X`)
       .then((response) => {
         return response.json();
       })
       .then((Json) => {
-        Json.meta.code === 400 ? console.log(Json.meta.errorDetail) : this.setState({ places: Json.response.venues })
+        Json.meta.code === 400 || Json.meta.code === 404 ? alert('Something went wrong while fetching data from Forsqure') : this.setState({ places: Json.response.venues })
       });
   }
 

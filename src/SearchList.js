@@ -3,13 +3,14 @@ import React, { Component } from 'react';
 class Header extends Component {
 
   render() {
-    const places = this.props.places.map(place => place.name)
+    const beaches = this.props.places;
+
     return(
         <ol className="search-list">
-          { places.length > 0  ?  places.map(place =>
-            <li>{ place }</li>
-          )  : <li>Nothing to display</li> }
-      </ol>
+          { beaches.length > 0  ?  beaches.map(beach =>
+            <li key= {beach.id} className="list-item">{ beach.name }</li>
+          )  : <li>Loading list...</li> }
+        </ol>
     )
   }
 }

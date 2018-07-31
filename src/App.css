@@ -85,10 +85,24 @@ ol {
 .search-list{
   width:15%;
   min-width: 265px;
+  padding-right: 5px;
+}
+
+.list-item{
+  cursor: pointer;
+  height: 2em;
+  padding: 10px;
+  border-bottom: 1px solid lightgrey;
+
+}
+
+li:first-child {
+  border-top: 1px solid lightgrey;
 }
 
 .map-container {
   width: 70%;
+  height: 70%;
 }
 
 .flex-container{
