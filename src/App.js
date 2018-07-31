@@ -8,6 +8,7 @@ import Map from './Map';
 
 class App extends Component {
   state = {
+    listItemSelected: undefined,
     filterString: '',
     zoom: 10,
     places: [],
@@ -33,6 +34,17 @@ class App extends Component {
     this.fetchPlaces();
   }
 
+  listItemClicked = (event) => {
+    this.setState({listItemSelected: event.target.id});
+
+    const highlightedItems = event.target.parentElement.querySelectorAll(".list-item-highlight");
+    if(highlightedItems.length > 0){
+      highlightedItems[0].classList.toggle('list-item-highlight');
+    }
+    event.target.classList.toggle('list-item-highlight');
+  }
+
+
   handleFilterInput = (event) => {
     this.setState({filterString: event.target.value});
   }
@@ -56,7 +68,10 @@ class App extends Component {
         </div>
         <main role="main">
           <div className="flex-container">
-            <SearchList places={ places }/>
+            <SearchList
+              places={ places }
+              handleClick = { this.listItemClicked }
+              />
             <Map
                 googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEe8hH_EmGU_py7z8VkxRprOP8_5-s9YU&v=3.exp&libraries=geometry,drawing,places"
                 loadingElement={ <div id="loading-element" style={{  height: '100%' }} /> }

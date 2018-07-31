@@ -14,6 +14,7 @@ html, body, #root, main { height: 100%; margin: 0px; padding: 0px; }
   height: 150px;
   padding: 5px;
   color: black;
+  border-bottom: 1px solid lightgrey;
 }
 
 .App-title {
@@ -94,6 +95,10 @@ ol {
   padding: 10px;
   border-bottom: 1px solid lightgrey;
 
+}
+
+.list-item-highlight{
+  background-color: lightgreen;
 }
 
 li:first-child {
