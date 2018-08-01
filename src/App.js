@@ -8,6 +8,7 @@ import Map from './Map';
 
 class App extends Component {
   state = {
+    position: undefined,
     itemSelected: undefined,
     prevSelected: undefined,
     filterString: '',
@@ -18,12 +19,12 @@ class App extends Component {
       lat: 35.51124,
       lng: 24.02921
     },
-    markerInfo: false
+    markerInfo: ''
     }
 
   fetchPlaces = () => {
     //Fetch data about the beaches near our center location (Chania, Crete island)
-    fetch(`https://api.foursquare.com/v2/venues/search?ll=${this.state.center.lat},${this.state.center.lng}&query=beach&v=20180323&limit=15&intent=browse&radius=150000&client_id=EC3IMTOJOJ05F0L00MJSK0IHOEWXX4YWQCZCDDKLROGYU10N&client_secret=GF1XG3HNSTOL2JGSZNVVUZLVFVBLHFPKVV52DA5BQIFMZSG2&X`)
+    fetch(`https://api.foursquare.com/v2/venues/search?ll=${this.state.center.lat},${this.state.center.lng}&query=beach&v=20180323&limit=3&intent=browse&radius=150000&client_id=EC3IMTOJOJ05F0L00MJSK0IHOEWXX4YWQCZCDDKLROGYU10N&client_secret=GF1XG3HNSTOL2JGSZNVVUZLVFVBLHFPKVV52DA5BQIFMZSG2&X`)
       .then((response) => {
         return response.json();
       })
@@ -51,11 +52,17 @@ class App extends Component {
 
   }
 
-  markerClicked = (id) => {
+  markerClicked = (beach) => {
+    this.setState({
+      position: {lat: beach.location.lat, lng: beach.location.lng},
+      markerInfo: beach.name,
+      prevSelected: this.state.itemSelected,
+      itemSelected: beach.id
+    })
+  }
 
-    this.setState({ prevSelected: this.state.itemSelected });
-    this.setState({ itemSelected: id });
-    this.setState({ markerInfo: !this.state.markerInfo });
+  markerInfoClicked = () => {
+    this.setState({ markerInfo: '' });
   }
 
   handleFilterInput = (event) => {
@@ -66,9 +73,6 @@ class App extends Component {
     const { lat, lng } = this.state.center;
     const zoom = this.state.zoom;
     const places = this.state.places;
-    const currentSelected = this.state.itemSelected;
-    const prevSelected = this.state.prevSelected;
-    const markerInfo = this.state.markerInfo;
 
     //const markerPositions = this.state.places.map( place => ({lat: place.location.lat, lng: place.location.lng }))
 
@@ -97,9 +101,10 @@ class App extends Component {
                 places={ places }
                 zoom={ zoom }
                 markerClicked={ this.markerClicked }
-                currentSelected={ currentSelected }
-                prevSelected={ prevSelected }
-                markerInfo={ markerInfo }
+                markerInfoClicked={ this.markerInfoClicked}
+                statePosition={ this.state.position }
+                markerInfo={ this.state.markerInfo }
+                itemSelected={ this.state.itemSelected }
               />
             </div>
         </main>
