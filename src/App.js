@@ -52,8 +52,9 @@ class App extends Component {
   }
 
   markerClicked = (id) => {
-    this.setState({ itemSelected: id });
+
     this.setState({ prevSelected: this.state.itemSelected });
+    this.setState({ itemSelected: id });
     this.setState({ markerInfo: !this.state.markerInfo });
   }
 

@@ -6,7 +6,7 @@ import BeachInfo from './BeachInfo'
 class BeachMarker extends Component {
 
   render() {
-    const {lat, lng} = this.props.position;
+    const pos = this.props.position;
     const name = this.props.name;
     const address = this.props.address.formattedAddress[1];
     let animation = window.google.maps.Animation.DROP;
@@ -19,10 +19,7 @@ class BeachMarker extends Component {
 
     return(
       <Marker
-        position={{
-          lat: lat,
-          lng: lng
-        }}
+        position={ pos }
         animation = { animation }
         icon = { pin }
         onClick={ () => this.props.markerClicked(id) }>
