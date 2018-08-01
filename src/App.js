@@ -8,7 +8,8 @@ import Map from './Map';
 
 class App extends Component {
   state = {
-    listItemSelected: undefined,
+    itemSelected: undefined,
+    prevSelected: undefined,
     filterString: '',
     zoom: 10,
     places: [],
@@ -16,11 +17,12 @@ class App extends Component {
       //location of Chania town, Crete
       lat: 35.51124,
       lng: 24.02921
-      }
+    },
+    markerInfo: false
     }
 
   fetchPlaces = () => {
-    //Let's use to fetch data about the beaches near our center location (Crete island)
+    //Fetch data about the beaches near our center location (Chania, Crete island)
     fetch(`https://api.foursquare.com/v2/venues/search?ll=${this.state.center.lat},${this.state.center.lng}&query=beach&v=20180323&limit=15&intent=browse&radius=150000&client_id=EC3IMTOJOJ05F0L00MJSK0IHOEWXX4YWQCZCDDKLROGYU10N&client_secret=GF1XG3HNSTOL2JGSZNVVUZLVFVBLHFPKVV52DA5BQIFMZSG2&X`)
       .then((response) => {
         return response.json();
@@ -34,25 +36,38 @@ class App extends Component {
     this.fetchPlaces();
   }
 
-  listItemClicked = (event) => {
-    this.setState({listItemSelected: event.target.id});
+  handleListItemClicked = (event) => {
+    this.setState({ prevSelected: this.state.itemSelected });
+    this.setState({ itemSelected: event.target.id });
 
     const highlightedItems = event.target.parentElement.querySelectorAll(".list-item-highlight");
+
     if(highlightedItems.length > 0){
       highlightedItems[0].classList.toggle('list-item-highlight');
     }
     event.target.classList.toggle('list-item-highlight');
+
+    //Let's find corresponding markers
+
   }
 
+  markerClicked = (id) => {
+    this.setState({ itemSelected: id });
+    this.setState({ prevSelected: this.state.itemSelected });
+    this.setState({ markerInfo: !this.state.markerInfo });
+  }
 
   handleFilterInput = (event) => {
-    this.setState({filterString: event.target.value});
+    this.setState({ filterString: event.target.value });
   }
 
   render() {
     const { lat, lng } = this.state.center;
     const zoom = this.state.zoom;
     const places = this.state.places;
+    const currentSelected = this.state.itemSelected;
+    const prevSelected = this.state.prevSelected;
+    const markerInfo = this.state.markerInfo;
 
     //const markerPositions = this.state.places.map( place => ({lat: place.location.lat, lng: place.location.lng }))
 
@@ -70,7 +85,7 @@ class App extends Component {
           <div className="flex-container">
             <SearchList
               places={ places }
-              handleClick = { this.listItemClicked }
+              handleClick = { this.handleListItemClicked }
               />
             <Map
                 googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEe8hH_EmGU_py7z8VkxRprOP8_5-s9YU&v=3.exp&libraries=geometry,drawing,places"
@@ -80,6 +95,10 @@ class App extends Component {
                 defaultCenter={{ lat: lat, lng: lng }}
                 places={ places }
                 zoom={ zoom }
+                markerClicked={ this.markerClicked }
+                currentSelected={ currentSelected }
+                prevSelected={ prevSelected }
+                markerInfo={ markerInfo }
               />
             </div>
         </main>

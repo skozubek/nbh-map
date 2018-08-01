@@ -7,7 +7,7 @@ export class BeachInfo extends Component {
     const address = this.props.address;
 
     return(
-      <InfoWindow>
+      <InfoWindow onCloseClick={this.props.onCloseClick}>
         <div>
           <h3>{ name }</h3>
           <p>{ address }</p>

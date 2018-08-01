@@ -4,20 +4,18 @@ import pin from './icons/beach.png';
 import BeachInfo from './BeachInfo'
 
 class BeachMarker extends Component {
-  state = {
-    info: false
-  }
-
-  clickInfo = () => {
-    this.setState({ info: !this.state.info })
-  }
 
   render() {
     const {lat, lng} = this.props.position;
     const name = this.props.name;
     const address = this.props.address.formattedAddress[1];
-    const animation = window.google.maps.Animation.DROP;
-    const info = this.state.info;
+    let animation = window.google.maps.Animation.DROP;
+    const info = this.props.markerInfo;
+    const id = this.props.id;
+
+    if(info){
+      animation = window.google.maps.Animation.BOUNCE;
+    }
 
     return(
       <Marker
@@ -27,8 +25,11 @@ class BeachMarker extends Component {
         }}
         animation = { animation }
         icon = { pin }
-        onClick={this.clickInfo}>
-        {info && (<BeachInfo name={ name } address = { address }/>)}
+        onClick={ () => this.props.markerClicked(id) }>
+        {info && (<BeachInfo
+                  name={ name }
+                  address={ address }
+                  onCloseClick={ () => this.props.markerClicked(id) } />)}
       </Marker>
     );
   }

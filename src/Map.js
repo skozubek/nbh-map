@@ -13,9 +13,16 @@ class Map extends Component {
         >
         {beaches.map( beach => <BeachMarker
                                 key={ beach.id }
+                                id= { beach.id }
                                 position={ {lat:beach.location.lat, lng:beach.location.lng} }
                                 name = { beach.name }
-                                address = { beach.location }/>) }
+                                markerClicked = { this.props.markerClicked }
+                                address = { beach.location }
+                                currentSelected = { this.props.currentSelected }
+                                prevSelected = { this.props.prevSelected }
+                                markerInfo = { this.props.markerInfo }
+                                />) }
+
       </GoogleMap>
     )
   }
