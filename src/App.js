@@ -5,6 +5,7 @@ import Search from './Search';
 import SearchList from './SearchList';
 import './App.css';
 import Map from './Map';
+import escapeRegExp from 'escape-string-regexp';
 
 class App extends Component {
   state = {
@@ -14,6 +15,7 @@ class App extends Component {
     filterString: '',
     zoom: 10,
     places: [],
+    filteredplaces: [],
     center: {
       //location of Chania town, Crete
       lat: 35.51124,
@@ -25,7 +27,7 @@ class App extends Component {
   //Using Forsuare API fetch beaches in western Crete based on center in Chania City
   fetchPlaces = () => {
     //Fetch data about the beaches near our center location (Chania, Crete island)
-    fetch(`https://api.foursquare.com/v2/venues/search?ll=${this.state.center.lat},${this.state.center.lng}&query=beach&v=20180323&limit=3&intent=browse&radius=150000&client_id=EC3IMTOJOJ05F0L00MJSK0IHOEWXX4YWQCZCDDKLROGYU10N&client_secret=GF1XG3HNSTOL2JGSZNVVUZLVFVBLHFPKVV52DA5BQIFMZSG2&X`)
+    fetch(`https://api.foursquare.com/v2/venues/search?ll=${this.state.center.lat},${this.state.center.lng}&query=beach&v=20180323&limit=18&intent=browse&radius=150000&client_id=EC3IMTOJOJ05F0L00MJSK0IHOEWXX4YWQCZCDDKLROGYU10N&client_secret=GF1XG3HNSTOL2JGSZNVVUZLVFVBLHFPKVV52DA5BQIFMZSG2&X`)
       .then((response) => {
         return response.json();
       })
@@ -38,6 +40,7 @@ class App extends Component {
   componentDidMount(){
     this.fetchPlaces();
   }
+  //***** LiSt related stuff ********//
 
   //When list item is clicked set current item selected in state
   //and highlight the element on the list
@@ -70,6 +73,23 @@ class App extends Component {
     });
   }
 
+  handleFilterInput = (event) => {
+    const filter = event.target.value;
+    const places = this.state.places;
+    this.setState({ filterString: event.target.value });
+    //based on search functionality in Udacity lessons (Contacts App)
+    let showingLocations;
+    if (filter) {
+      const match = new RegExp(escapeRegExp(filter), 'i')
+      showingLocations = places.filter((place) => match.test(place.name))
+    } else {
+      showingLocations = places;
+    }
+    this.setState( {filteredplaces: showingLocations})
+  }
+
+  //***** Markers related stuff ********//
+
   markerClicked = (beach) => {
     this.setState({
       position: {lat: beach.location.lat, lng: beach.location.lng},
@@ -84,14 +104,11 @@ class App extends Component {
     this.setState({ markerInfo: '' });
   }
 
-  handleFilterInput = (event) => {
-    this.setState({ filterString: event.target.value });
-  }
-
   render() {
     const { lat, lng } = this.state.center;
     const zoom = this.state.zoom;
-    const places = this.state.places;
+    const places = this.state.filteredplaces.length > 0 ? this.state.filteredplaces : this.state.places
+
 
     return (
       <div className="App">
