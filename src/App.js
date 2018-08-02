@@ -76,14 +76,25 @@ class App extends Component {
   handleFilterInput = (event) => {
     const filter = event.target.value;
     const places = this.state.places;
+    const theList = document.querySelectorAll('.search-list')[0];
+
     this.setState({ filterString: event.target.value });
     //based on search functionality in Udacity lessons (Contacts App)
     let showingLocations;
     if (filter) {
       const match = new RegExp(escapeRegExp(filter), 'i')
       showingLocations = places.filter((place) => match.test(place.name))
+      //Show hidden list when user starts to type in filter edit box
+      if(![...theList.classList].includes('search-list-open')){
+          theList.classList.add('search-list-open');
+        }
+
     } else {
       showingLocations = places;
+      //Hide list when user cleared filter edit box
+      if([...theList.classList].includes('search-list-open')){
+          theList.classList.remove('search-list-open');
+      }
     }
     this.setState( {filteredplaces: showingLocations})
   }
