@@ -22,6 +22,7 @@ class App extends Component {
     markerInfo: ''
     }
 
+  //Using Forsuare API fetch beaches in western Crete based on center in Chania City
   fetchPlaces = () => {
     //Fetch data about the beaches near our center location (Chania, Crete island)
     fetch(`https://api.foursquare.com/v2/venues/search?ll=${this.state.center.lat},${this.state.center.lng}&query=beach&v=20180323&limit=3&intent=browse&radius=150000&client_id=EC3IMTOJOJ05F0L00MJSK0IHOEWXX4YWQCZCDDKLROGYU10N&client_secret=GF1XG3HNSTOL2JGSZNVVUZLVFVBLHFPKVV52DA5BQIFMZSG2&X`)
@@ -33,23 +34,40 @@ class App extends Component {
       });
   }
 
+  //We fetch places when component did mount
   componentDidMount(){
     this.fetchPlaces();
   }
 
+  //When list item is clicked set current item selected in state
+  //and highlight the element on the list
   handleListItemClicked = (event) => {
     this.setState({ prevSelected: this.state.itemSelected });
     this.setState({ itemSelected: event.target.id });
 
-    const highlightedItems = event.target.parentElement.querySelectorAll(".list-item-highlight");
-
+    const highlightedItems = document.querySelectorAll(".list-item-highlight");
+    //if element highlighted already then un-highlight it
     if(highlightedItems.length > 0){
       highlightedItems[0].classList.toggle('list-item-highlight');
     }
+    //highlight an element
     event.target.classList.toggle('list-item-highlight');
+  }
 
-    //Let's find corresponding markers
+  //Function to highlight list element from outside (MarkerClicked)
+  highlightListItem = () => {
 
+    const selectedId = this.state.itemSelected;
+    const highlightItem = document.querySelectorAll(".list-item");
+
+    highlightItem.forEach(item => {
+      if ([...item.classList].includes('list-item-highlight')){
+        item.classList.remove('list-item-highlight');
+      }
+      if (item.id === selectedId){
+        item.classList.add('list-item-highlight');
+      }
+    });
   }
 
   markerClicked = (beach) => {
@@ -59,6 +77,7 @@ class App extends Component {
       prevSelected: this.state.itemSelected,
       itemSelected: beach.id
     })
+    this.highlightListItem();
   }
 
   markerInfoClicked = () => {
@@ -73,8 +92,6 @@ class App extends Component {
     const { lat, lng } = this.state.center;
     const zoom = this.state.zoom;
     const places = this.state.places;
-
-    //const markerPositions = this.state.places.map( place => ({lat: place.location.lat, lng: place.location.lng }))
 
     return (
       <div className="App">
