@@ -45,8 +45,8 @@ class App extends Component {
         return response.json();
       })
       .then((Json) => {
-        return Json.response.venue.photos.count}
-      )
+        return Json.response.venue.photos.count
+      })
       .catch(err => alert(err));
     })
   }
