@@ -27,7 +27,7 @@ class App extends Component {
   //Using Forsuare API fetch beaches in western Crete based on center in Chania City
   fetchPlaces = () => {
     //Fetch data about the beaches near our center location (Chania, Crete island)
-    fetch(`https://api.foursquare.com/v2/venues/search?ll=${this.state.center.lat},${this.state.center.lng}&query=beach&v=20180323&limit=18&intent=browse&radius=150000&client_id=EC3IMTOJOJ05F0L00MJSK0IHOEWXX4YWQCZCDDKLROGYU10N&client_secret=GF1XG3HNSTOL2JGSZNVVUZLVFVBLHFPKVV52DA5BQIFMZSG2&X`)
+    fetch(`https://api.foursquare.com/v2/venues/search?ll=${this.state.center.lat},${this.state.center.lng}&query=beach&v=20180323&limit=8&intent=browse&radius=150000&client_id=EC3IMTOJOJ05F0L00MJSK0IHOEWXX4YWQCZCDDKLROGYU10N&client_secret=GF1XG3HNSTOL2JGSZNVVUZLVFVBLHFPKVV52DA5BQIFMZSG2&X`)
       .then((response) => {
         return response.json();
       })
@@ -45,9 +45,17 @@ class App extends Component {
   //When list item is clicked set current item selected in state
   //and highlight the element on the list
   handleListItemClicked = (event) => {
-    this.setState({ prevSelected: this.state.itemSelected });
-    this.setState({ itemSelected: event.target.id });
+    //based on id get the selected beach and set the state apropriately
+    const index = this.state.places.findIndex((element) => element.id === event.target.id);
+    const beach = this.state.places[index];
+    this.setState({
+      position: {lat: beach.location.lat, lng: beach.location.lng},
+      markerInfo: beach.name,
+      prevSelected: this.state.itemSelected,
+      itemSelected: beach.id
+    })
 
+    //visualy update the list highlighting clicked item if not highlighted already
     const highlightedItems = document.querySelectorAll(".list-item-highlight");
     //if element highlighted already then un-highlight it
     if(highlightedItems.length > 0){
