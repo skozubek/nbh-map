@@ -9,14 +9,13 @@ import escapeRegExp from 'escape-string-regexp';
 
 class App extends Component {
   state = {
-    position: undefined,
     itemSelected: undefined,
-    prevSelected: undefined,
     filterString: '',
     zoom: 10,
     places: [],
+    photos: [],
     filteredplaces: [],
-    center: {
+    position: {
       //location of Chania town, Crete
       lat: 35.51124,
       lng: 24.02921
@@ -27,18 +26,36 @@ class App extends Component {
   //Using Forsuare API fetch beaches in western Crete based on center in Chania City
   fetchPlaces = () => {
     //Fetch data about the beaches near our center location (Chania, Crete island)
-    fetch(`https://api.foursquare.com/v2/venues/search?ll=${this.state.center.lat},${this.state.center.lng}&query=beach&v=20180323&limit=8&intent=browse&radius=150000&client_id=EC3IMTOJOJ05F0L00MJSK0IHOEWXX4YWQCZCDDKLROGYU10N&client_secret=GF1XG3HNSTOL2JGSZNVVUZLVFVBLHFPKVV52DA5BQIFMZSG2&X`)
+    fetch(`https://api.foursquare.com/v2/venues/search?ll=${this.state.position.lat},${this.state.position.lng}&query=beach&v=20180323&limit=2&intent=browse&radius=150000&client_id=EC3IMTOJOJ05F0L00MJSK0IHOEWXX4YWQCZCDDKLROGYU10N&client_secret=GF1XG3HNSTOL2JGSZNVVUZLVFVBLHFPKVV52DA5BQIFMZSG2`)
       .then((response) => {
         return response.json();
       })
       .then((Json) => {
-        Json.meta.code === 400 || Json.meta.code === 404 ? alert('Something went wrong while fetching data from Forsqure') : this.setState({ places: Json.response.venues })
-      });
+        this.setState({ places: Json.response.venues });
+      })
+      .catch(err => alert(err));
+  }
+
+  fetchPhotos = (places) => {
+    //Fetch data about the beaches near our center location (Chania, Crete island)
+    places.map( place => {
+      fetch(`https://api.foursquare.com/v2/venues/${place.id}?client_id=EC3IMTOJOJ05F0L00MJSK0IHOEWXX4YWQCZCDDKLROGYU10N&client_secret=GF1XG3HNSTOL2JGSZNVVUZLVFVBLHFPKVV52DA5BQIFMZSG2&v=20180323`)
+      .then((response) => {
+        return response.json();
+      })
+      .then((Json) => {
+        return Json.response.venue.photos.count}
+      )
+      .catch(err => alert(err));
+    })
   }
 
   //We fetch places when component did mount
   componentDidMount(){
     this.fetchPlaces();
+    setTimeout(() => {
+      const places = this.state.places;
+      this.fetchPhotos(places); }, 3000);
   }
   //***** LiSt related stuff ********//
 
@@ -51,7 +68,6 @@ class App extends Component {
     this.setState({
       position: {lat: beach.location.lat, lng: beach.location.lng},
       markerInfo: beach.name,
-      prevSelected: this.state.itemSelected,
       itemSelected: beach.id
     })
 
@@ -113,7 +129,6 @@ class App extends Component {
     this.setState({
       position: {lat: beach.location.lat, lng: beach.location.lng},
       markerInfo: beach.name,
-      prevSelected: this.state.itemSelected,
       itemSelected: beach.id
     })
     this.highlightListItem();
@@ -124,7 +139,7 @@ class App extends Component {
   }
 
   render() {
-    const { lat, lng } = this.state.center;
+    const { lat, lng } = this.state.position;
     const zoom = this.state.zoom;
     const places = this.state.filteredplaces.length > 0 ? this.state.filteredplaces : this.state.places
 
@@ -154,8 +169,7 @@ class App extends Component {
                 places={ places }
                 zoom={ zoom }
                 markerClicked={ this.markerClicked }
-                markerInfoClicked={ this.markerInfoClicked}
-                statePosition={ this.state.position }
+                markerInfoClicked={ this.markerInfoClicked }
                 markerInfo={ this.state.markerInfo }
                 itemSelected={ this.state.itemSelected }
               />

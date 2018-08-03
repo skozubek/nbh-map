@@ -52,6 +52,7 @@ class Map extends Component {
               (<BeachInfo
                   name={ beach.name }
                   address={ beach.name }
+
                   onCloseClick={ this.props.markerInfoClicked }
                 />)}
           </Marker>)
