@@ -9,6 +9,7 @@ class Map extends Component {
     const beaches = this.props.places;
     const bounce = window.google.maps.Animation.BOUNCE;
     const none = window.google.maps.Animation.NONE;
+    //console.log(this.props.center)
 
     return (
       <GoogleMap
@@ -54,6 +55,7 @@ class Map extends Component {
                   address={ beach.name }
 
                   onCloseClick={ this.props.markerInfoClicked }
+                  getPictureUrl={ this.props.getPictureUrl }
                 />)}
           </Marker>)
           }

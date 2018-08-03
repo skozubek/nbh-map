@@ -6,6 +6,7 @@ import SearchList from './SearchList';
 import './App.css';
 import Map from './Map';
 import escapeRegExp from 'escape-string-regexp';
+import ErrorBoundary from './ErrorBoundary';
 
 class App extends Component {
   state = {
@@ -23,7 +24,7 @@ class App extends Component {
     markerInfo: ''
     }
 
-  //Using Forsuare API fetch beaches in western Crete based on center in Chania City
+  //Using Forsquare API fetch beaches in western Crete based on center in Chania City
   fetchPlaces = () => {
     //Fetch data about the beaches near our center location (Chania, Crete island)
     fetch(`https://api.foursquare.com/v2/venues/search?ll=${this.state.position.lat},${this.state.position.lng}&query=beach&v=20180323&limit=2&intent=browse&radius=150000&client_id=EC3IMTOJOJ05F0L00MJSK0IHOEWXX4YWQCZCDDKLROGYU10N&client_secret=GF1XG3HNSTOL2JGSZNVVUZLVFVBLHFPKVV52DA5BQIFMZSG2`)
@@ -100,25 +101,14 @@ class App extends Component {
   handleFilterInput = (event) => {
     const filter = event.target.value;
     const places = this.state.places;
-    const theList = document.querySelectorAll('.search-list')[0];
-
     this.setState({ filterString: event.target.value });
     //based on search functionality in Udacity lessons (Contacts App)
     let showingLocations;
     if (filter) {
       const match = new RegExp(escapeRegExp(filter), 'i')
       showingLocations = places.filter((place) => match.test(place.name))
-      //Show hidden list when user starts to type in filter edit box
-      if(![...theList.classList].includes('search-list-open')){
-          theList.classList.add('search-list-open');
-        }
-
     } else {
       showingLocations = places;
-      //Hide list when user cleared filter edit box
-      if([...theList.classList].includes('search-list-open')){
-          theList.classList.remove('search-list-open');
-      }
     }
     this.setState( {filteredplaces: showingLocations})
   }
@@ -126,11 +116,13 @@ class App extends Component {
   //***** Markers related stuff ********//
 
   markerClicked = (beach) => {
+
     this.setState({
-      position: {lat: beach.location.lat, lng: beach.location.lng},
       markerInfo: beach.name,
       itemSelected: beach.id
     })
+
+    //highlited cliced item on the list
     this.highlightListItem();
   }
 
@@ -145,6 +137,7 @@ class App extends Component {
 
 
     return (
+      <ErrorBoundary>
       <div className="App">
         <Header />
         <div className="search-bar">
@@ -172,11 +165,12 @@ class App extends Component {
                 markerInfoClicked={ this.markerInfoClicked }
                 markerInfo={ this.state.markerInfo }
                 itemSelected={ this.state.itemSelected }
+                getPictureUrl={ this.getPictureUrl }
               />
             </div>
         </main>
       </div>
-    );
+    </ErrorBoundary>);
   }
 }
 
