@@ -33,7 +33,10 @@ class App extends Component {
       })
       .then((Json) => {
         this.setState({ places: Json.response.venues });
+        return Json.response.venues;
       })
+      .then((venues) => this.fetchPhotos(venues))
+      .then((urls) => this.setState({ photos: urls }, () => console.log(this.state.photos)))
       .catch(err => alert(err));
   }
 
@@ -63,19 +66,19 @@ class App extends Component {
   componentDidMount(){
     this.fetchPlaces();
 
-    setTimeout( () => {
-      const places = this.state.places;
+    // setTimeout( () => {
+    //   const places = this.state.places;
+    //
+    //   this.fetchPhotos(places).then((urls) => {
+    //     // let photoUrls = [];
+    //     // photoUrls = urls;
+    //     // this.setState({ photos: photoUrls });
+    //     console.log(urls);
+    //     console.log(this);
+    //     this.setState({ photos: urls }, () => console.log(this.state.photos))
+    //   });
+    // }, 3000);
 
-      this.fetchPhotos(places).then((urls) => {
-        // let photoUrls = [];
-        // photoUrls = urls;
-        // this.setState({ photos: photoUrls });
-        console.log(urls);
-        console.log(this);
-        this.setState({ photos: urls });
-      });
-
-    }, 3000);
   }
   //***** LiSt related stuff ********//
 
