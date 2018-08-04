@@ -11,12 +11,14 @@ class SearchList extends Component {
 
     return(
         <ol className="search-list">
-          { beaches.length > 0  ?  beaches.map(beach =>
+          { beaches.length > 0  ?  beaches.map((beach, index) =>
             <li
+              tabIndex= { 0 }
               key={ beach.id }
               id={ beach.id }
               className="list-item"
-              onClick= { this.props.handleClick }>
+              onKeyDown={ this.props.handleClick }
+              onClick={ this.props.handleClick }>
               { beach.name }
             </li>
           )  : <li>Loading list...</li> }

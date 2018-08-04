@@ -3,7 +3,6 @@ import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-map
 import pin from './icons/beach.png';
 import BeachInfo from './BeachInfo';
 
-
 class Map extends Component {
   render() {
     const beaches = this.props.places;

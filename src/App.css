@@ -71,8 +71,8 @@ ol {
     padding: 5px 10px;
 }
 
-.filter {
-    cursor: pointer;
+.filter input:focus {
+    background-color: yellow;
 }
 
 .filter input {

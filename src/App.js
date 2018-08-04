@@ -6,12 +6,13 @@ import SearchList from './SearchList';
 import './App.css';
 import Map from './Map';
 import escapeRegExp from 'escape-string-regexp';
-import ErrorBoundary from './ErrorBoundary';
 
 class App extends Component {
   state = {
     itemSelected: undefined,
     filterString: '',
+    mapError: false,
+    forsquareError: false,
     zoom: 10,
     places: [],
     photos: [],
@@ -35,9 +36,12 @@ class App extends Component {
         this.setState({ places: Json.response.venues });
         return Json.response.venues;
       })
-      .then((venues) => this.fetchPhotos(venues))
-      .then((urls) => this.setState({ photos: urls }, () => console.log(this.state.photos)))
-      .catch(err => alert(err));
+      // .then((venues) => this.fetchPhotos(venues))
+      // .then((urls) => this.setState({ photos: urls }))
+      .catch(err => {
+        alert(err);
+        this.setState({ forsquareError: true })
+      });
   }
 
   fetchPhotos = (places) => {
@@ -65,20 +69,14 @@ class App extends Component {
   //We fetch places when component did mount
   componentDidMount(){
     this.fetchPlaces();
+    this.setState({mapLoaded: true})
 
-    // setTimeout( () => {
-    //   const places = this.state.places;
-    //
-    //   this.fetchPhotos(places).then((urls) => {
-    //     // let photoUrls = [];
-    //     // photoUrls = urls;
-    //     // this.setState({ photos: photoUrls });
-    //     console.log(urls);
-    //     console.log(this);
-    //     this.setState({ photos: urls }, () => console.log(this.state.photos))
-    //   });
-    // }, 3000);
+  }
 
+  onMapMounted = (map) => {
+    window.gm_authFailure = () => {
+    this.setState({ mapError: true });
+    };
   }
   //***** LiSt related stuff ********//
 
@@ -159,7 +157,6 @@ class App extends Component {
 
 
     return (
-      <ErrorBoundary>
       <div className="App">
         <Header />
         <div className="search-bar">
@@ -174,11 +171,13 @@ class App extends Component {
             <SearchList
               places={ places }
               handleClick = { this.handleListItemClicked }
+              handleEnter = { this.handleListItemEntered }
               />
             <Map
                 googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEe8hH_EmGU_py7z8VkxRprOP8_5-s9YU&v=3.exp&libraries=geometry,drawing,places"
                 loadingElement={ <div id="loading-element" style={{  height: '100%' }} /> }
                 containerElement={ <div className="map-container"/> }
+                ref={ this.onMapMounted }
                 mapElement={ <div id="map-element" style={{ width: '100%', height: '100%' }} /> }
                 defaultCenter={{ lat: lat, lng: lng }}
                 places={ places }
@@ -192,7 +191,7 @@ class App extends Component {
             </div>
         </main>
       </div>
-    </ErrorBoundary>);
+    );
   }
 }
 

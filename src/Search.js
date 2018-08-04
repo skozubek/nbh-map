@@ -16,6 +16,8 @@ class Search extends Component {
               placeholder={ 'Find the beach' }
               value={ this.props.filterString }
               onChange={ this.props.onFilterInput }
+              tabIndex={ 0 }
+              arialabel={ 'dupa' }
             />
           </label>
         </form>
