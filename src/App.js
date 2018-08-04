@@ -38,25 +38,44 @@ class App extends Component {
   }
 
   fetchPhotos = (places) => {
-    //Fetch data about the beaches near our center location (Chania, Crete island)
-    places.map( place => {
-      fetch(`https://api.foursquare.com/v2/venues/${place.id}?client_id=EC3IMTOJOJ05F0L00MJSK0IHOEWXX4YWQCZCDDKLROGYU10N&client_secret=GF1XG3HNSTOL2JGSZNVVUZLVFVBLHFPKVV52DA5BQIFMZSG2&v=20180323`)
-      .then((response) => {
-        return response.json();
-      })
-      .then((Json) => {
-        return Json.response.venue.photos.count
-      })
-      .catch(err => alert(err));
-    })
+    return new Promise((resolve, reject) => {
+
+      let photosUrls =[];
+
+      for (let i=0; i < places.length; i++){
+      //Fetch data about the beaches near our center location (Chania, Crete island)
+        fetch(`https://api.foursquare.com/v2/venues/${places[i].id}?client_id=EC3IMTOJOJ05F0L00MJSK0IHOEWXX4YWQCZCDDKLROGYU10N&client_secret=GF1XG3HNSTOL2JGSZNVVUZLVFVBLHFPKVV52DA5BQIFMZSG2&v=20180323`)
+        .then((response) => {
+          return response.json();
+        })
+        .then((Json) => {
+          let url = `${Json.response.venue.photos.groups[1].items[1].prefix}250x300${Json.response.venue.photos.groups[1].items[1].suffix}`;
+          photosUrls.push(url);
+        })
+        .catch(err => alert(err));
+      }
+      resolve(photosUrls);
+      reject('No idea what happened');
+    });
   }
 
   //We fetch places when component did mount
   componentDidMount(){
     this.fetchPlaces();
-    setTimeout(() => {
+
+    setTimeout( () => {
       const places = this.state.places;
-      this.fetchPhotos(places); }, 3000);
+
+      this.fetchPhotos(places).then((urls) => {
+        // let photoUrls = [];
+        // photoUrls = urls;
+        // this.setState({ photos: photoUrls });
+        console.log(urls);
+        console.log(this);
+        this.setState({ photos: urls });
+      });
+
+    }, 3000);
   }
   //***** LiSt related stuff ********//
 
