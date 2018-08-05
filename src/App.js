@@ -28,7 +28,7 @@ class App extends Component {
   //Using Forsquare API fetch beaches in western Crete based on center in Chania City
   fetchPlaces = () => {
     //Fetch data about the beaches near our center location (Chania, Crete island)
-    fetch(`https://api.foursquare.com/v2/venues/search?ll=${this.state.position.lat},${this.state.position.lng}&query=beach&v=20180323&limit=2&intent=browse&radius=150000&client_id=EC3IMTOJOJ05F0L00MJSK0IHOEWXX4YWQCZCDDKLROGYU10N&client_secret=GF1XG3HNSTOL2JGSZNVVUZLVFVBLHFPKVV52DA5BQIFMZSG2`)
+    fetch(`https://api.foursquare.com/v2/venues/search?ll=${this.state.position.lat},${this.state.position.lng}&query=beach&v=20180323&limit=8&intent=browse&radius=150000&client_id=EC3IMTOJOJ05F0L00MJSK0IHOEWXX4YWQCZCDDKLROGYU10N&client_secret=GF1XG3HNSTOL2JGSZNVVUZLVFVBLHFPKVV52DA5BQIFMZSG2`)
       .then((response) => {
         return response.json();
       })
@@ -36,11 +36,11 @@ class App extends Component {
         this.setState({ places: Json.response.venues });
         return Json.response.venues;
       })
-      // .then((venues) => this.fetchPhotos(venues))
-      // .then((urls) => this.setState({ photos: urls }))
+      .then((places) => this.fetchPhotos(places))
+      .then((urls) => this.setState({ photos: urls }))
       .catch(err => {
         alert(err);
-        this.setState({ forsquareError: true })
+        this.setState({ forsquareError: true });
       });
   }
 
@@ -58,9 +58,12 @@ class App extends Component {
         .then((Json) => {
           let url = `${Json.response.venue.photos.groups[1].items[1].prefix}250x300${Json.response.venue.photos.groups[1].items[1].suffix}`;
           photosUrls.push(url);
+          places[i]['photoUrl'] = url;
         })
         .catch(err => alert(err));
+        this.setState({ forsquareError: true });
       }
+
       resolve(photosUrls);
       reject('No idea what happened');
     });

@@ -52,7 +52,7 @@ class Map extends Component {
               (<BeachInfo
                   name={ beach.name }
                   address={ beach.name }
-
+                  photoUrl={ beach.photoUrl }
                   onCloseClick={ this.props.markerInfoClicked }
                   getPictureUrl={ this.props.getPictureUrl }
                 />)}
