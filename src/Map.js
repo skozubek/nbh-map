@@ -4,10 +4,13 @@ import pin from './icons/beach.png';
 import BeachInfo from './BeachInfo';
 
 class Map extends Component {
+
+
+
   render() {
     const beaches = this.props.places;
-    const bounce = window.google.maps.Animation.BOUNCE;
-    const none = window.google.maps.Animation.NONE;
+    const bounce = 1;
+    const none = 0;
     //console.log(this.props.center)
 
     return (
@@ -42,9 +45,7 @@ class Map extends Component {
             address = { beach.location }
             markerInfo = { this.props.markerInfo }
             icon = { pin }
-
             animation={(this.props.itemSelected === beach.id) ? bounce : none }
-
             onClick={ () => this.props.markerClicked(beach) }
             >
 
@@ -54,7 +55,8 @@ class Map extends Component {
                   address={ beach.name }
                   photoUrl={ beach.photoUrl }
                   onCloseClick={ this.props.markerInfoClicked }
-                  getPictureUrl={ this.props.getPictureUrl }
+                  forsquareError={ this.props.forsquareError }
+                  forsquareErrorMsg={ this.props.forsquareErrorMsg }
                 />)}
           </Marker>)
           }

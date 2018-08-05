@@ -6,29 +6,39 @@ import SearchList from './SearchList';
 import './App.css';
 import Map from './Map';
 import escapeRegExp from 'escape-string-regexp';
+import ErrorBoundaryMap from './ErrorBoundaryMap';
+import apology from './icons/apology.png';
+import { GOOGLE_MAP_KEY } from './Keys';
+import { FSQ_ID } from './Keys';
+import { FSQ_SECRET } from './Keys';
 
 class App extends Component {
   state = {
-    itemSelected: undefined,
-    filterString: '',
-    mapError: false,
-    forsquareError: false,
-    zoom: 10,
-    places: [],
-    photos: [],
-    filteredplaces: [],
+    itemSelected: undefined, //currently selected item on the list and map
+    filterString: '', //user entered filter for itemSelected
+    mapError: false,  //flag for maps error handling
+    forsquareError: false, //flag for forsquare error handling
+    forsquareErrorMsg: '', //to use with error message in error handler
+    zoom: 10,   //map's zoom
+    places: [], //the list of places
+    photos: [], //the list of foto urls for places
+    filteredplaces: [], //array with filtered places (based on filterString
     position: {
-      //location of Chania town, Crete
+      //Initial position of Chania town, Crete
+      //Than position of selected place
       lat: 35.51124,
       lng: 24.02921
     },
-    markerInfo: ''
+    markerInfo: '' //Text displayed on markerInfo
     }
 
   //Using Forsquare API fetch beaches in western Crete based on center in Chania City
   fetchPlaces = () => {
     //Fetch data about the beaches near our center location (Chania, Crete island)
-    fetch(`https://api.foursquare.com/v2/venues/search?ll=${this.state.position.lat},${this.state.position.lng}&query=beach&v=20180323&limit=8&intent=browse&radius=150000&client_id=EC3IMTOJOJ05F0L00MJSK0IHOEWXX4YWQCZCDDKLROGYU10N&client_secret=GF1XG3HNSTOL2JGSZNVVUZLVFVBLHFPKVV52DA5BQIFMZSG2`)
+    fetch(`https://api.foursquare.com/v2/venues/search?ll=
+      ${this.state.position.lat},${this.state.position.lng}
+      &query=beach&v=20180323&limit=8&intent=browse&radius=150000&client_id=
+      ${FSQ_ID}&client_secret= ${FSQ_SECRET}`)
       .then((response) => {
         return response.json();
       })
@@ -38,12 +48,11 @@ class App extends Component {
       })
       .then((places) => this.fetchPhotos(places))
       .then((urls) => this.setState({ photos: urls }))
-      .catch(err => {
-        alert(err);
-        this.setState({ forsquareError: true });
-      });
-  }
+      .catch(err => this.setState({ forsquareError: true, forSquareErrorMsg: `Couldn't fetch places` }))
+    };
 
+  //Using Forsquare API fetch photos of the places loaded with fetchPlaces
+  //It is a Promise as it performes async stuff in a loop
   fetchPhotos = (places) => {
     return new Promise((resolve, reject) => {
 
@@ -51,7 +60,8 @@ class App extends Component {
 
       for (let i=0; i < places.length; i++){
       //Fetch data about the beaches near our center location (Chania, Crete island)
-        fetch(`https://api.foursquare.com/v2/venues/${places[i].id}?client_id=EC3IMTOJOJ05F0L00MJSK0IHOEWXX4YWQCZCDDKLROGYU10N&client_secret=GF1XG3HNSTOL2JGSZNVVUZLVFVBLHFPKVV52DA5BQIFMZSG2&v=20180323`)
+        fetch(`https://api.dupafoursquare.com/v2/venues/$
+          {places[i].id}?client_id=${FSQ_ID}&client_secret=${FSQ_SECRET}&v=20180323`)
         .then((response) => {
           return response.json();
         })
@@ -60,33 +70,25 @@ class App extends Component {
           photosUrls.push(url);
           places[i]['photoUrl'] = url;
         })
-        .catch(err => alert(err));
-        this.setState({ forsquareError: true });
+        .catch(err => this.setState({ forsquareError: true,  forsquareErrorMsg: `Couldn't fetch photos` }))
       }
-
       resolve(photosUrls);
-      reject('No idea what happened');
+      reject('Something went wrong while fetching photo url...');
     });
   }
 
   //We fetch places when component did mount
   componentDidMount(){
     this.fetchPlaces();
-    this.setState({mapLoaded: true})
-
   }
 
-  onMapMounted = (map) => {
-    window.gm_authFailure = () => {
-    this.setState({ mapError: true });
-    };
-  }
   //***** LiSt related stuff ********//
 
   //When list item is clicked set current item selected in state
   //and highlight the element on the list
   handleListItemClicked = (event) => {
     //based on id get the selected beach and set the state apropriately
+    if((event.type === 'keydown' && event.keyCode === 13) || event.type === 'click'){
     const index = this.state.places.findIndex((element) => element.id === event.target.id);
     const beach = this.state.places[index];
     this.setState({
@@ -104,6 +106,7 @@ class App extends Component {
     //highlight an element
     event.target.classList.toggle('list-item-highlight');
   }
+}
 
   //Function to highlight list element from outside (MarkerClicked)
   highlightListItem = () => {
@@ -136,7 +139,12 @@ class App extends Component {
     this.setState( {filteredplaces: showingLocations})
   }
 
-  //***** Markers related stuff ********//
+  //***** Maps related stuff ********//
+  onMapMounted = (map) => {
+    window.gm_authFailure = () => {
+    this.setState({ mapError: true });
+    };
+  }
 
   markerClicked = (beach) => {
 
@@ -157,7 +165,9 @@ class App extends Component {
     const { lat, lng } = this.state.position;
     const zoom = this.state.zoom;
     const places = this.state.filteredplaces.length > 0 ? this.state.filteredplaces : this.state.places
-
+    const errorFsq = this.state.forsquareError;
+    const errorFsqMsg = this.state.forsquareErrorMsg;
+    const errorMap = this.state.mapError;
 
     return (
       <div className="App">
@@ -175,13 +185,17 @@ class App extends Component {
               places={ places }
               handleClick = { this.handleListItemClicked }
               handleEnter = { this.handleListItemEntered }
+              forsquareError={ errorFsq }
+              forsquareErrorMsg={ errorFsqMsg }
               />
-            <Map
-                googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEe8hH_EmGU_py7z8VkxRprOP8_5-s9YU&v=3.exp&libraries=geometry,drawing,places"
-                loadingElement={ <div id="loading-element" style={{  height: '100%' }} /> }
+            <ErrorBoundaryMap>
+            { !errorMap ? (<Map
+                googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAP_KEY}&v=3.exp&libraries=geometry,drawing,places`}
+                loadingElement={ <div id="loading-element"a/> }
                 containerElement={ <div className="map-container"/> }
                 ref={ this.onMapMounted }
-                mapElement={ <div id="map-element" style={{ width: '100%', height: '100%' }} /> }
+                errorMap={ errorMap }
+                mapElement={ <div id="map-element" role="application"/> }
                 defaultCenter={{ lat: lat, lng: lng }}
                 places={ places }
                 zoom={ zoom }
@@ -189,9 +203,18 @@ class App extends Component {
                 markerInfoClicked={ this.markerInfoClicked }
                 markerInfo={ this.state.markerInfo }
                 itemSelected={ this.state.itemSelected }
-                getPictureUrl={ this.getPictureUrl }
-              />
-            </div>
+                forsquareError={ errorFsq }
+                forsquareErrorMsg={ errorFsqMsg }
+
+              />) : (<div className="map-not-loaded">
+                <img src={ apology } title="We're sorry, the map failed to load" alt="Picture of the guy being sorry" />
+                <p>See, sometimes things go wrong.</p>
+                <p>{`Google map authorisation stuff failed, so I've got nothing to display for you this time.`}</p>
+                <p>Go grab a coffee and try agaian in a few minutes.</p>
+              </div>)
+            }
+            </ErrorBoundaryMap>
+          </div>
         </main>
       </div>
     );

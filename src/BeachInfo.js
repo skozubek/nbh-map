@@ -7,16 +7,24 @@ export class BeachInfo extends Component {
     const name = this.props.name;
     const address = this.props.address;
     const url = this.props.photoUrl;
+    const fetchPhotoError = this.props.forsquareError && this.props.forsquareErrorMsg === `Couldn't fetch photos`;
 
     return(
       <InfoWindow onCloseClick={this.props.onCloseClick}>
         <div>
           <h3>{ name }</h3>
           <p>{ address }</p>
-          <img
-          src={ url }
-          title={ name }
-          alt={ {name} } />
+          {!fetchPhotoError ? (
+            <img
+              src={ url }
+              title={ name }
+              alt={ {name} } />
+            ) : (
+              <p>{`Fetching photo from Forsquare failed`}<br/>
+              {`It's an awesome beach, try `}<a href={`http://www.google.com/search?q=${name} + photo`} title={ name } target="_blank">
+              {`google photo search `}</a>{`to check it out!`}</p>
+              )
+          }
         </div>
       </InfoWindow>
     );

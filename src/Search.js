@@ -17,7 +17,6 @@ class Search extends Component {
               value={ this.props.filterString }
               onChange={ this.props.onFilterInput }
               tabIndex={ 0 }
-              arialabel={ 'dupa' }
             />
           </label>
         </form>

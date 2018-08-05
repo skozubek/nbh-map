@@ -2,11 +2,7 @@ import React, { Component } from 'react';
 
 class SearchList extends Component {
 
-  itemClicked = (event) => {
-    console.log('item clicked');
-  }
-
-  render() {
+render() {
     const beaches = this.props.places;
 
     return(
@@ -21,7 +17,9 @@ class SearchList extends Component {
               onClick={ this.props.handleClick }>
               { beach.name }
             </li>
-          )  : <li>Loading list...</li> }
+          )  :
+            <li>Fetching places from Forsquare failed...</li>
+          }
         </ol>
     )
   }
