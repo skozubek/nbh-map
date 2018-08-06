@@ -2,10 +2,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 # Table of Contents
 
-- [About the App](#About-the-app)
-- [Starting the App](#How-to-use-tha-app)
-- [Running the app](#Running-the-app)
-- [Dependencies](#Dependencies)
+- [About the App](#about-the-app)
+- [Starting the App](#how-to-use-tha-app)
+- [Running the app](#running-the-app)
+- [Dependencies](#dependencies)
 
 # About the app
 
