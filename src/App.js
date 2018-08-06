@@ -151,19 +151,19 @@ class App extends Component {
 
   //***** Maps related stuff ********//
   onMapMounted = (map) => {
+    //listen for google maps authorisation error
     window.gm_authFailure = () => {
     this.setState({ mapError: true });
     };
   }
 
   markerClicked = (beach) => {
-
     this.setState({
       markerInfo: beach.name,
       itemSelected: beach.id
     })
 
-    //highlited cliced item on the list
+    //highlited clicked item on the list
     this.highlightListItem();
   }
 
