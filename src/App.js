@@ -123,6 +123,7 @@ class App extends Component {
     });
   }
 
+  //Filter locations with user's input
   handleFilterInput = (event) => {
     const filter = event.target.value;
     const places = this.state.places;
