@@ -24,11 +24,11 @@ It's possible to filter locations. Typing in "Find the beach" input box will dyn
 
 ## Developement mode on local machine
 
-1. clone or download this repo
-2. cd to the directory you stored the repo
-3. install dependencies with npm install
-4. start the server with npm start
-5. enjoy the App visiting http://localhost:3000
+1. clone or download this repo,
+2. cd to the directory you stored the repo,
+3. install dependencies with `npm install`,
+4. start the server with `npm start`,
+5. enjoy the App visiting `http://localhost:3000`
 
 ## Production mode
 
@@ -36,18 +36,18 @@ Build mode provides additional benefits as it utilizes service worker and makes 
 
 Tu build and run the app in Production mode:
 
-1. cd to the project's directory
-2. install dependencies with npm install if you not yet didn't.
-3. build the app with npm-run-build
-4. install server with npm-install -g server
-5. cd into "build" directory and run serve -s command
-6. enjoy the App visiting http://localhost:5000
+1. cd to the project's directory,
+2. install dependencies with `npm install` if you not yet didn't,
+3. build the app with `npm run build`,
+4. install server with `npm install -g server`,
+5. cd into "build" directory and run `serve -s` command,
+6. enjoy the App visiting `http://localhost:5000`
 
 # Dependencies
 
 1. [react-google-maps](https://tomchentw.github.io/react-google-maps/)
-which provides a set of React components wrapping the underlying Google Maps JavaScript API v3 instances.
-2. [escape-string-regexp](https://www.npmjs.com/package/escape-string-regexp) for locations filtering functionality
+which provides a set of React components wrapping the underlying Google Maps JavaScript API v3 instances,
+2. [escape-string-regexp](https://www.npmjs.com/package/escape-string-regexp) for locations filtering functionality,
 3. [Foursquare API](https://developer.foursquare.com/) to find places and fetch additional data about them.
 
 # Contributing
