@@ -60,8 +60,7 @@ class App extends Component {
 
       for (let i=0; i < places.length; i++){
       //Fetch data about the beaches near our center location (Chania, Crete island)
-        fetch(`https://api.dupafoursquare.com/v2/venues/$
-          {places[i].id}?client_id=${FSQ_ID}&client_secret=${FSQ_SECRET}&v=20180323`)
+        fetch(`https://dupaapi.foursquare.com/v2/venues/${places[i].id}?client_id=${FSQ_ID}&client_secret=${FSQ_SECRET}&v=20180323`)
         .then((response) => {
           return response.json();
         })
@@ -128,12 +127,22 @@ class App extends Component {
     const filter = event.target.value;
     const places = this.state.places;
     this.setState({ filterString: event.target.value });
+    //DOM elements
+    const list = document.querySelector('.search-list');
+    const hamburger = document.querySelector('.hamburger');
+
     //based on search functionality in Udacity lessons (Contacts App)
     let showingLocations;
     if (filter) {
-      const match = new RegExp(escapeRegExp(filter), 'i')
+      const match = new RegExp(escapeRegExp(filter), 'i');
+      list.classList.add('search-list-open');
+      hamburger.classList.add('change');
+
       showingLocations = places.filter((place) => match.test(place.name))
+
     } else {
+      list.classList.remove('search-list-open');
+      hamburger.classList.remove('change');
       showingLocations = places;
     }
     this.setState( {filteredplaces: showingLocations})
@@ -175,6 +184,7 @@ class App extends Component {
         <div className="search-bar">
           <Hamburger />
           <Search
+            aria-label={ `Filter list of beaches` }
             filter={ this.state.filterString }
             onFilterInput={ this.handleFilterInput }
             />
@@ -182,6 +192,7 @@ class App extends Component {
         <main role="main">
           <div className="flex-container">
             <SearchList
+              role={ `navigation` }
               places={ places }
               handleClick = { this.handleListItemClicked }
               handleEnter = { this.handleListItemEntered }
@@ -191,7 +202,7 @@ class App extends Component {
             <ErrorBoundaryMap>
             { !errorMap ? (<Map
                 googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAP_KEY}&v=3.exp&libraries=geometry,drawing,places`}
-                loadingElement={ <div id="loading-element"a/> }
+                loadingElement={ <div id="loading-element"/> }
                 containerElement={ <div className="map-container"/> }
                 ref={ this.onMapMounted }
                 errorMap={ errorMap }
@@ -205,9 +216,8 @@ class App extends Component {
                 itemSelected={ this.state.itemSelected }
                 forsquareError={ errorFsq }
                 forsquareErrorMsg={ errorFsqMsg }
-
               />) : (<div className="map-not-loaded">
-                <img src={ apology } title="We're sorry, the map failed to load" alt="Picture of the guy being sorry" />
+                <img src={ apology } title="We're sorry, the map failed to load" alt="The guy being sorry" />
                 <p>See, sometimes things go wrong.</p>
                 <p>{`Google map authorisation stuff failed, so I've got nothing to display for you this time.`}</p>
                 <p>Go grab a coffee and try agaian in a few minutes.</p>

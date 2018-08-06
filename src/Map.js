@@ -4,9 +4,6 @@ import pin from './icons/beach.png';
 import BeachInfo from './BeachInfo';
 
 class Map extends Component {
-
-
-
   render() {
     const beaches = this.props.places;
     const bounce = 1;
@@ -48,7 +45,6 @@ class Map extends Component {
             animation={(this.props.itemSelected === beach.id) ? bounce : none }
             onClick={ () => this.props.markerClicked(beach) }
             >
-
             {(this.props.markerInfo && this.props.itemSelected === beach.id) &&
               (<BeachInfo
                   name={ beach.name }

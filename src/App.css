@@ -9,9 +9,19 @@ html, body, #root, main { height: 100%; margin: 0px; padding: 0px; }
   height: 80px;
 }
 
+.fsq-logo {
+  height: 32px;
+  vertical-align: middle;
+}
+
+.attribution {
+  text-align: center;
+  font-size: 0.8em;
+}
+
 .App-header {
   background-color: #white;
-  height: 150px;
+  height: 200px;
   padding: 5px;
   color: black;
   border-bottom: 1px solid lightgrey;
@@ -145,7 +155,7 @@ li:first-child {
       background-color: #fff;
       width: 50%;
       position: absolute;
-      /* This trasform moves the drawer off canvas. */
+      /* This trasform moves the list off canvas. */
       -webkit-transform: translate(-100%, 0);
       transform: translate(-100%, 0);
       /* Optionally, we animate the drawer. */
