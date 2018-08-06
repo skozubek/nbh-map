@@ -3,9 +3,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 # Table of Contents
 
 - [About the App](#about-the-app)
-- [Starting the App](#how-to-use-tha-app)
+- [How to use the app](#how-to-use-the-app)
 - [Running the app](#running-the-app)
 - [Dependencies](#dependencies)
+- [Contributing](#dependencies)
 
 # About the app
 
@@ -29,9 +30,9 @@ It's possible to filter locations. Typing in "Find the beach" input box will dyn
 4. start the server with npm start
 5. enjoy the App visiting http://localhost:3000
 
-## ProductionProduction mode
+## Production mode
 
-Build mode provides additional benefits as it utilizes service worker and make the app functional with network issues
+Build mode provides additional benefits as it utilizes service worker and makes the app functional with network issues
 
 Tu build and run the app in Production mode:
 
@@ -44,7 +45,11 @@ Tu build and run the app in Production mode:
 
 # Dependencies
 
-1. react-google-maps https://tomchentw.github.io/react-google-maps/
+1. [react-google-maps](https://tomchentw.github.io/react-google-maps/)
 which provides a set of React components wrapping the underlying Google Maps JavaScript API v3 instances.
-2. escape-string-regexp for locations filtering functionality
-3. Foursquare API to find places and fetch additional data about them.
+2. [escape-string-regexp](https://www.npmjs.com/package/escape-string-regexp) for locations filtering functionality
+3. [Foursquare API](https://developer.foursquare.com/) to find places and fetch additional data about them.
+
+# Contributing
+
+As the app is a project for Udacity Fend course, most likely I will not accept pull requests.
