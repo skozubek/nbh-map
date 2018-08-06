@@ -35,7 +35,7 @@ class App extends Component {
   //Using Forsquare API fetch beaches in western Crete based on center in Chania City
   fetchPlaces = () => {
     //Fetch data about the beaches near our center location (Chania, Crete island)
-    fetch(`https://api.foursquare.com/v2/venues/search?ll=
+    fetch(`https://api.afoursquare.com/v2/venues/search?ll=
       ${this.state.position.lat},${this.state.position.lng}
       &query=beach&v=20180323&limit=8&intent=browse&radius=150000&client_id=
       ${FSQ_ID}&client_secret= ${FSQ_SECRET}`)

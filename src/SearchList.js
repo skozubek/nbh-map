@@ -7,7 +7,7 @@ render() {
 
     return(
         <ol className="search-list">
-          { beaches.length > 0  ?  beaches.map((beach, index) =>
+          { (beaches && beaches.length > 0)  ?  beaches.map((beach, index) =>
             <li
               tabIndex= { 0 }
               key={ beach.id }

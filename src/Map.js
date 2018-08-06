@@ -15,7 +15,7 @@ class Map extends Component {
         defaultZoom={ this.props.zoom  }
         defaultCenter={ this.props.defaultCenter }
         >
-        {beaches.map( beach =>
+        {beaches ? (beaches.map( beach =>
           //Add markers to the map
           //Map through the locations and generate Marker element for each element
           //if currently being mapped element happens to match the one selected
@@ -54,7 +54,7 @@ class Map extends Component {
                   forsquareError={ this.props.forsquareError }
                   forsquareErrorMsg={ this.props.forsquareErrorMsg }
                 />)}
-          </Marker>)
+          </Marker>)) : <p>Oooops! Fetching places from Forsquare failed...</p>
           }
 
       </GoogleMap>
