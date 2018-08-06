@@ -60,7 +60,7 @@ class App extends Component {
 
       for (let i=0; i < places.length; i++){
       //Fetch data about the beaches near our center location (Chania, Crete island)
-        fetch(`https://dupaapi.foursquare.com/v2/venues/${places[i].id}?client_id=${FSQ_ID}&client_secret=${FSQ_SECRET}&v=20180323`)
+        fetch(`https://api.foursquare.com/v2/venues/${places[i].id}?client_id=${FSQ_ID}&client_secret=${FSQ_SECRET}&v=20180323`)
         .then((response) => {
           return response.json();
         })
