@@ -17,7 +17,7 @@ Application fetches the list of Western Crete beaches from Foursquare, loads the
 
 # How to use the app
 
-You can select the beach you're interested in either on the list or on the map. Once selected - map's marker info window is displayed with name of the beach and image.
+You can select the beach you're interested in either on the list or on the map. Once selected - map's marker info window is displayed with the name of the beach and image.
 
 Images are fetched from Foursquare. If there are any problems with fetching the photo - a link to photo search is provided.
 
