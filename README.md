@@ -1,25 +1,27 @@
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
-## Table of Contents
+# Table of Contents
 
 - [About the App](#About-the-app)
-- [Starting the App](#Startting-the-app)
+- [Starting the App](#How-to-use-tha-app)
+- [Running the app](#Running-the-app)
+- [Dependencies](#Dependencies)
 
-## About the App
+# About the app
 
 Explore the beaches of Western Crete (Greece) - inspired by the holidays spent on this wonderful Island.
 It's a final project for Udacity FEND nano degree.
 
-# How to use the
+# How to use the app
 
 Application fetches the list of Western Crete beaches from Foursquare, loads their locations on the list and shows them on the map.
 
 You can select the beach you're interested in either on the list or on the map. Once selected - additional information is displayed in map's marker info window - address and image. Again - images are fetched from Foursquare.
 It's possible to filter locations. Typing in "Find the beach" input box will dynamically update the list and map with filtered locations.
 
-## Running Application
+# Running the app
 
-# Developement mode on local machine
+## Developement mode on local machine
 
 1. clone or download this repo
 2. cd to the directory you stored the repo
@@ -27,7 +29,7 @@ It's possible to filter locations. Typing in "Find the beach" input box will dyn
 4. start the server with npm start
 5. enjoy the App visiting http://localhost:3000
 
-# ProductionProduction mode
+## ProductionProduction mode
 
 Build mode provides additional benefits as it utilizes service worker and make the app functional with network issues
 
@@ -40,7 +42,7 @@ Tu build and run the app in Production mode:
 5. cd into "build" directory and run serve -s command
 6. enjoy the App visiting http://localhost:5000
 
-## Dependencies
+# Dependencies
 
 1. react-google-maps https://tomchentw.github.io/react-google-maps/
 which provides a set of React components wrapping the underlying Google Maps JavaScript API v3 instances.
